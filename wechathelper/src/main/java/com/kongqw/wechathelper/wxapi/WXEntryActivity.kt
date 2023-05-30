@@ -13,6 +13,7 @@ import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.reactivex.rxkotlin.subscribeBy
@@ -23,12 +24,19 @@ open class WXEntryActivity : Activity(), IWXAPIEventHandler {
         private val TAG = WXEntryActivity::class.java.simpleName
     }
 
+    private var api: IWXAPI? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WXAPIFactory.createWXAPI(this, MetaUtil.getWeChatAppId(applicationContext), true).handleIntent(intent, this)
+        api= WXAPIFactory.createWXAPI(this, MetaUtil.getWeChatAppId(applicationContext), true)
+        api?.handleIntent(intent, this)
         Logger.i(TAG, "onCreate  WeChatAppId = ${MetaUtil.getWeChatAppId(applicationContext)}")
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        api?.handleIntent(intent, this)
+    }
     override fun onResume() {
         super.onResume()
         Logger.i(TAG, "onResume()")
