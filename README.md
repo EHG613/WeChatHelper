@@ -1,6 +1,6 @@
 # 微信开放平台封装
 
-[![](https://jitpack.io/v/kongqw/WeChatHelper.svg)](https://jitpack.io/#kongqw/WeChatHelper)
+[![](https://jitpack.io/v/EHG613/WeChatHelper.svg)](https://jitpack.io/#EHG613/WeChatHelper)
 
 本库在授权登录部分使用了`Retrofit`和`RxKotlin`
 
