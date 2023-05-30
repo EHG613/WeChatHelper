@@ -21,7 +21,7 @@ Step 2. Add the dependency
 
 ``` gradle
 dependencies {
-        implementation 'com.github.EHG613:WeChatHelper:1.2.2'
+        implementation 'com.github.EHG613:WeChatHelper:1.2.3'
 }
 ```
 
