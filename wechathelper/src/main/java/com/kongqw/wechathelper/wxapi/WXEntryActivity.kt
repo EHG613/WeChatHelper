@@ -17,7 +17,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.reactivex.rxkotlin.subscribeBy
 
-class WXEntryActivity : Activity(), IWXAPIEventHandler {
+open class WXEntryActivity : Activity(), IWXAPIEventHandler {
 
     companion object {
         private val TAG = WXEntryActivity::class.java.simpleName
