@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.Nullable
 import com.kongqw.wechathelper.enums.Scene
+import com.kongqw.wechathelper.enums.SceneMiniProgramType
 import com.kongqw.wechathelper.listener.IPaymentParams
 import com.kongqw.wechathelper.listener.OnWeChatAuthLoginListener
 import com.kongqw.wechathelper.listener.OnWeChatPaymentListener
@@ -85,8 +86,8 @@ internal class WeChatBaseHelper(val context: Context) {
         bmp: Bitmap,
         scene: Scene,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = THUMB_SIZE,
-        @Nullable thumbHeight: Int = THUMB_SIZE
+        thumbWidth: Int = THUMB_SIZE,
+        thumbHeight: Int = THUMB_SIZE
     ): Boolean {
         val isInitWeChat = api.registerApp(mWeChatAppId)
         Logger.i(TAG, "isInitWeChat = $isInitWeChat  mWeChatAppId = $mWeChatAppId")
@@ -105,8 +106,8 @@ internal class WeChatBaseHelper(val context: Context) {
         bmp: Bitmap,
         scene: Scene,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = THUMB_SIZE,
-        @Nullable thumbHeight: Int = THUMB_SIZE
+        thumbWidth: Int = THUMB_SIZE,
+        thumbHeight: Int = THUMB_SIZE
     ): Boolean {
         val isInitWeChat = api.registerApp(mWeChatAppId)
         Logger.i(TAG, "isInitWeChat = $isInitWeChat  mWeChatAppId = $mWeChatAppId")
@@ -142,8 +143,8 @@ internal class WeChatBaseHelper(val context: Context) {
         bmp: Bitmap,
         scene: Scene,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = THUMB_SIZE,
-        @Nullable thumbHeight: Int = THUMB_SIZE
+        thumbWidth: Int = THUMB_SIZE,
+        thumbHeight: Int = THUMB_SIZE
     ): Boolean {
         val isInitWeChat = api.registerApp(mWeChatAppId)
         Logger.i(TAG, "isInitWeChat = $isInitWeChat  mWeChatAppId = $mWeChatAppId")
@@ -190,8 +191,8 @@ internal class WeChatBaseHelper(val context: Context) {
         title: String,
         description: String,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = THUMB_SIZE,
-        @Nullable thumbHeight: Int = THUMB_SIZE
+        thumbWidth: Int = THUMB_SIZE,
+        thumbHeight: Int = THUMB_SIZE
     ): Boolean {
         val isInitWeChat = api.registerApp(mWeChatAppId)
         Logger.i(TAG, "isInitWeChat = $isInitWeChat  mWeChatAppId = $mWeChatAppId")
@@ -236,8 +237,8 @@ internal class WeChatBaseHelper(val context: Context) {
         title: String,
         description: String,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = THUMB_SIZE,
-        @Nullable thumbHeight: Int = THUMB_SIZE
+        thumbWidth: Int = THUMB_SIZE,
+        thumbHeight: Int = THUMB_SIZE
     ): Boolean {
         val isInitWeChat = api.registerApp(mWeChatAppId)
         Logger.i(TAG, "isInitWeChat = $isInitWeChat  mWeChatAppId = $mWeChatAppId")
@@ -282,8 +283,8 @@ internal class WeChatBaseHelper(val context: Context) {
         title: String,
         description: String,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = THUMB_SIZE,
-        @Nullable thumbHeight: Int = THUMB_SIZE
+        thumbWidth: Int = THUMB_SIZE,
+        thumbHeight: Int = THUMB_SIZE
     ): Boolean {
         val isInitWeChat = api.registerApp(mWeChatAppId)
         Logger.i(TAG, "isInitWeChat = $isInitWeChat  mWeChatAppId = $mWeChatAppId")
@@ -314,7 +315,54 @@ internal class WeChatBaseHelper(val context: Context) {
         // 调用api接口，发送数据到微信
         return api.sendReq(req)
     }
+    /**
+     * 网页分享
+     */
+    fun shareMiniProgram(
+        bitmap: Bitmap,
+        scene: Scene,
+        miniprogramType:SceneMiniProgramType,
+        userName: String,
+        path: String,
+        webPageUrl: String,
+        title: String,
+        description: String,
+        listener: OnWeChatShareListener,
+        thumbWidth: Int = THUMB_SIZE,
+        thumbHeight: Int = THUMB_SIZE
+    ): Boolean {
+        val isInitWeChat = api.registerApp(mWeChatAppId)
+        Logger.i(TAG, "isInitWeChat = $isInitWeChat  mWeChatAppId = $mWeChatAppId")
+        mOnWeChatShareListener = listener
+        // 初始化一个WXWebpageObject，填写url
+        val miniProgramObj = WXMiniProgramObject().apply {
+            this.miniprogramType = miniprogramType.type
+            this.userName = userName
+            this.path = path
+            this.webpageUrl = webPageUrl
+        }
 
+        //设置缩略图
+        val thumbBmp = Bitmap.createScaledBitmap(bitmap, thumbWidth, thumbHeight, true)
+
+        // 用 WXMusicObject 对象初始化一个 WXMediaMessage 对象
+        val msg = WXMediaMessage(miniProgramObj).apply {
+            this.title = title
+            this.description = description
+            // 设置音乐缩略图
+            thumbData = BitmapUtil.bitmapToByteArray(thumbBmp, true)
+        }
+        // 构造一个Req
+        val req = SendMessageToWX.Req().apply {
+            transaction = String.format("miniprogram%s", System.currentTimeMillis())
+            message = msg
+            this.scene = scene.type
+            // userOpenId = getOpenId();
+        }
+        mOnWeChatShareListener?.onWeChatShareStart()
+        // 调用api接口，发送数据到微信
+        return api.sendReq(req)
+    }
     /**
      * 授权登录
      */

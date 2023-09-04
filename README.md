@@ -21,7 +21,7 @@ Step 2. Add the dependency
 
 ``` gradle
 dependencies {
-        implementation 'com.github.EHG613:WeChatHelper:1.2.3'
+        implementation 'com.github.EHG613:WeChatHelper:1.2.4'
 }
 ```
 
@@ -56,6 +56,12 @@ WeChatClient.init(applicationContext, BuildConfig.DEBUG)
 | Scene.Favorite | 收藏夹 |
 | Scene.Session | 联系人 |
 
+| SceneMiniProgramType |     |
+| --- |-----|
+| SceneMiniProgramType.MINIPTOGRAM_TYPE_RELEASE | 正式版 |
+| SceneMiniProgramType.MINIPROGRAM_TYPE_TEST | 测试版 |
+| SceneMiniProgramType.MINIPROGRAM_TYPE_PREVIEW | 预览版 |
+
 ### 分享文字
 
 ``` kotlin
@@ -84,6 +90,12 @@ WeChatClient.shareVideo(`Bitmap`, `Scene`, `视频链接`, `分享视频名称`,
 
 ``` kotlin
 WeChatClient.shareWebPage(`Bitmap`, `Scene`, `网址链接`, `分享网址名称`, `分享网址描述`, `OnWeChatShareListener`)
+```
+
+### 分享小程序
+
+``` kotlin
+WeChatClient.shareMiniProgram(`Bitmap`, `Scene`,`SceneMiniProgramType`,`小程序原始id`,`小程序页面路径`, `网址链接`, `分享网址名称`, `分享网址描述`, `OnWeChatShareListener`)
 ```
 
 

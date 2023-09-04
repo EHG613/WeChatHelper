@@ -2,8 +2,8 @@ package com.kongqw.wechathelper
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.annotation.Nullable
 import com.kongqw.wechathelper.enums.Scene
+import com.kongqw.wechathelper.enums.SceneMiniProgramType
 import com.kongqw.wechathelper.listener.IPaymentParams
 import com.kongqw.wechathelper.listener.OnWeChatAuthLoginListener
 import com.kongqw.wechathelper.listener.OnWeChatPaymentListener
@@ -28,7 +28,7 @@ object WeChatClient {
      * 分享文字内容
      */
     fun shareText(content: String, scene: Scene, listener: OnWeChatShareListener): Boolean {
-        if(!AppUtils.isWeChatInstalled(applicationContext)){
+        if (!AppUtils.isWeChatInstalled(applicationContext)) {
             listener.onNotInstall()
             return false
         }
@@ -42,14 +42,20 @@ object WeChatClient {
         bmp: Bitmap,
         scene: Scene,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
-        @Nullable thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
+        thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
+        thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
     ): Boolean {
-        if(!AppUtils.isWeChatInstalled(applicationContext)){
+        if (!AppUtils.isWeChatInstalled(applicationContext)) {
             listener.onNotInstall()
             return false
         }
-        return WeChatBaseHelper(applicationContext).shareImage(bmp, scene, listener, thumbWidth, thumbHeight)
+        return WeChatBaseHelper(applicationContext).shareImage(
+            bmp,
+            scene,
+            listener,
+            thumbWidth,
+            thumbHeight
+        )
     }
 
     /**
@@ -62,14 +68,23 @@ object WeChatClient {
         title: String,
         description: String,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
-        @Nullable thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
+        thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
+        thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
     ): Boolean {
-        if(!AppUtils.isWeChatInstalled(applicationContext)){
+        if (!AppUtils.isWeChatInstalled(applicationContext)) {
             listener.onNotInstall()
             return false
         }
-        return WeChatBaseHelper(applicationContext).shareMusic(bitmap, scene, musicUrl, title, description, listener, thumbWidth, thumbHeight)
+        return WeChatBaseHelper(applicationContext).shareMusic(
+            bitmap,
+            scene,
+            musicUrl,
+            title,
+            description,
+            listener,
+            thumbWidth,
+            thumbHeight
+        )
     }
 
     /**
@@ -82,14 +97,23 @@ object WeChatClient {
         title: String,
         description: String,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
-        @Nullable thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
+        thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
+        thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
     ): Boolean {
-        if(!AppUtils.isWeChatInstalled(applicationContext)){
+        if (!AppUtils.isWeChatInstalled(applicationContext)) {
             listener.onNotInstall()
             return false
         }
-        return WeChatBaseHelper(applicationContext).shareVideo(bitmap, scene, videoUrl, title, description, listener, thumbWidth, thumbHeight)
+        return WeChatBaseHelper(applicationContext).shareVideo(
+            bitmap,
+            scene,
+            videoUrl,
+            title,
+            description,
+            listener,
+            thumbWidth,
+            thumbHeight
+        )
     }
 
     /**
@@ -102,14 +126,58 @@ object WeChatClient {
         title: String,
         description: String,
         listener: OnWeChatShareListener,
-        @Nullable thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
-        @Nullable thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
+        thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
+        thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
     ): Boolean {
-        if(!AppUtils.isWeChatInstalled(applicationContext)){
+        if (!AppUtils.isWeChatInstalled(applicationContext)) {
             listener.onNotInstall()
             return false
         }
-        return WeChatBaseHelper(applicationContext).shareWebPage(bitmap, scene, webPageUrl, title, description, listener, thumbWidth, thumbHeight)
+        return WeChatBaseHelper(applicationContext).shareWebPage(
+            bitmap,
+            scene,
+            webPageUrl,
+            title,
+            description,
+            listener,
+            thumbWidth,
+            thumbHeight
+        )
+    }
+
+    /**
+     * 小程序分享
+     */
+    fun shareMiniProgram(
+        bitmap: Bitmap,
+        scene: Scene,
+        miniprogramType: SceneMiniProgramType,
+        userName: String,
+        path: String,
+        webPageUrl: String,
+        title: String,
+        description: String,
+        listener: OnWeChatShareListener,
+        thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
+        thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
+    ): Boolean {
+        if (!AppUtils.isWeChatInstalled(applicationContext)) {
+            listener.onNotInstall()
+            return false
+        }
+        return WeChatBaseHelper(applicationContext).shareMiniProgram(
+            bitmap,
+            scene,
+            miniprogramType,
+            userName,
+            path,
+            webPageUrl,
+            title,
+            description,
+            listener,
+            thumbWidth,
+            thumbHeight
+        )
     }
 
 
@@ -117,7 +185,7 @@ object WeChatClient {
      * 授权登录
      */
     fun authLogin(listener: OnWeChatAuthLoginListener) {
-        if(!AppUtils.isWeChatInstalled(applicationContext)){
+        if (!AppUtils.isWeChatInstalled(applicationContext)) {
             listener.onNotInstall()
             return
         }
@@ -129,7 +197,7 @@ object WeChatClient {
      * 微信支付
      */
     fun payment(params: IPaymentParams, listener: OnWeChatPaymentListener) {
-        if(!AppUtils.isWeChatInstalled(applicationContext)){
+        if (!AppUtils.isWeChatInstalled(applicationContext)) {
             listener.onNotInstall()
             return
         }
