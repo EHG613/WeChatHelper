@@ -340,6 +340,7 @@ internal class WeChatBaseHelper(val context: Context) {
             this.userName = userName
             this.path = path
             this.webpageUrl = webPageUrl
+            this.withShareTicket = true
         }
 
         //设置缩略图
