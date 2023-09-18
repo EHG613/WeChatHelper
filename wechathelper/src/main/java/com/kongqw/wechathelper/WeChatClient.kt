@@ -157,9 +157,7 @@ object WeChatClient {
         webPageUrl: String,
         title: String,
         description: String,
-        listener: OnWeChatShareListener,
-        thumbWidth: Int = WeChatBaseHelper.THUMB_SIZE,
-        thumbHeight: Int = WeChatBaseHelper.THUMB_SIZE
+        listener: OnWeChatShareListener
     ): Boolean {
         if (!AppUtils.isWeChatInstalled(applicationContext)) {
             listener.onNotInstall()
@@ -175,8 +173,6 @@ object WeChatClient {
             title,
             description,
             listener,
-            thumbWidth,
-            thumbHeight
         )
     }
 

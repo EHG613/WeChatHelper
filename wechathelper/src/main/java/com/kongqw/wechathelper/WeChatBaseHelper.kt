@@ -327,9 +327,7 @@ internal class WeChatBaseHelper(val context: Context) {
         webPageUrl: String,
         title: String,
         description: String,
-        listener: OnWeChatShareListener,
-        thumbWidth: Int = THUMB_SIZE,
-        thumbHeight: Int = THUMB_SIZE
+        listener: OnWeChatShareListener
     ): Boolean {
         val isInitWeChat = api.registerApp(mWeChatAppId)
         Logger.i(TAG, "isInitWeChat = $isInitWeChat  mWeChatAppId = $mWeChatAppId")
@@ -343,15 +341,13 @@ internal class WeChatBaseHelper(val context: Context) {
             this.withShareTicket = true
         }
 
-        //设置缩略图
-        val thumbBmp = Bitmap.createScaledBitmap(bitmap, thumbWidth, thumbHeight, true)
 
         // 用 WXMusicObject 对象初始化一个 WXMediaMessage 对象
         val msg = WXMediaMessage(miniProgramObj).apply {
             this.title = title
             this.description = description
             // 设置音乐缩略图
-            thumbData = BitmapUtil.bitmapToByteArray(thumbBmp, true)
+            thumbData = BitmapUtil.bitmapToByteArray(bitmap, true)
         }
         // 构造一个Req
         val req = SendMessageToWX.Req().apply {
