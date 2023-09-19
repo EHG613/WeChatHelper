@@ -1,8 +1,6 @@
 package com.kongqw.wechathelper.utils
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Rect
 import java.io.ByteArrayOutputStream
 
 
@@ -27,36 +25,30 @@ internal object BitmapUtil {
         }
     }
 
-    fun bitmapToByteArray2(bmp: Bitmap, needRecycle: Boolean): ByteArray {
-        var i: Int
-        var j: Int
-        if (bmp.height > bmp.width) {
-            i = bmp.width
-            j = bmp.width
-        } else {
-            i = bmp.height
-            j = bmp.height
+    fun bitmapToByteArray2(
+        bmp: Bitmap,
+        maxSize: Int,
+        isWithAlpha: Boolean = false
+    ): ByteArray? {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        //压缩的格式（如果被压缩的图片带有透明度需要选择PNG)
+        var compressFormat = Bitmap.CompressFormat.JPEG
+        if (isWithAlpha) {
+            compressFormat = Bitmap.CompressFormat.PNG
         }
-        val localBitmap = Bitmap.createBitmap(i, j, Bitmap.Config.RGB_565)
-        val localCanvas = Canvas(localBitmap)
-        while (true) {
-            localCanvas.drawBitmap(bmp, Rect(0, 0, i, j), Rect(0, 0, i, j), null)
-            if (needRecycle) bmp.recycle()
-            val localByteArrayOutputStream = ByteArrayOutputStream()
-            localBitmap.compress(
-                Bitmap.CompressFormat.JPEG, 100,
-                localByteArrayOutputStream
-            )
-            localBitmap.recycle()
-            val arrayOfByte = localByteArrayOutputStream.toByteArray()
-            try {
-                localByteArrayOutputStream.close()
-                return arrayOfByte
-            } catch (e: java.lang.Exception) {
-                // F.out(e);
+        //压缩的质量（压缩质量范围0-100，值越大，质量越好，对于 PNG 和 WEBP 格式，此参数不起作用，可以设置为 0）
+        var compressQuality = 100
+        //将位图压缩为指定格式
+        bmp.compress(compressFormat, compressQuality, byteArrayOutputStream)
+        //判断压缩后的输出流是否符合指定的条件
+        while ((byteArrayOutputStream.size() / 1024) > maxSize) {
+            compressQuality -= 10
+            if (compressQuality <= 0) {
+                break
             }
-            i = bmp.height
-            j = bmp.height
+            byteArrayOutputStream.reset()
+            bmp.compress(compressFormat, compressQuality, byteArrayOutputStream)
         }
+        return byteArrayOutputStream.toByteArray()
     }
 }

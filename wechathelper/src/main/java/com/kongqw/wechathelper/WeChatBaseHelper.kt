@@ -347,7 +347,7 @@ internal class WeChatBaseHelper(val context: Context) {
             this.title = title
             this.description = description
             // 设置音乐缩略图
-            thumbData = BitmapUtil.bitmapToByteArray2(bitmap, true)
+            thumbData = BitmapUtil.bitmapToByteArray2(bitmap, 128)
         }
         // 构造一个Req
         val req = SendMessageToWX.Req().apply {
