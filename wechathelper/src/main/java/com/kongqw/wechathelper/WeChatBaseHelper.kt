@@ -315,13 +315,14 @@ internal class WeChatBaseHelper(val context: Context) {
         // 调用api接口，发送数据到微信
         return api.sendReq(req)
     }
+
     /**
      * 网页分享
      */
     fun shareMiniProgram(
         bitmap: Bitmap,
         scene: Scene,
-        miniprogramType:SceneMiniProgramType,
+        miniprogramType: SceneMiniProgramType,
         userName: String,
         path: String,
         webPageUrl: String,
@@ -360,6 +361,7 @@ internal class WeChatBaseHelper(val context: Context) {
         // 调用api接口，发送数据到微信
         return api.sendReq(req)
     }
+
     /**
      * 授权登录
      */
@@ -372,6 +374,9 @@ internal class WeChatBaseHelper(val context: Context) {
         req.state = STATE
         mOnWeChatAuthLoginListener?.onWeChatAuthLoginStart()
         val sendReq = api.sendReq(req)
+        if (!sendReq) {
+            mOnWeChatAuthLoginListener?.onNotInstall()
+        }
         Logger.i(TAG, "authLogin sendReq = $sendReq")
     }
 
