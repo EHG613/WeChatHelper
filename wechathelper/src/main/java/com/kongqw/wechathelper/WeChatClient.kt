@@ -159,10 +159,10 @@ object WeChatClient {
         description: String,
         listener: OnWeChatShareListener
     ): Boolean {
-        if (!AppUtils.isWeChatInstalled(applicationContext)) {
-            listener.onNotInstall()
-            return false
-        }
+//        if (!AppUtils.isWeChatInstalled(applicationContext)) {
+//            listener.onNotInstall()
+//            return false
+//        }
         return WeChatBaseHelper(applicationContext).shareMiniProgram(
             bitmap,
             scene,
