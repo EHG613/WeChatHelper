@@ -76,7 +76,11 @@ internal class WeChatBaseHelper(val context: Context) {
             this.scene = scene.type
         }
         mOnWeChatShareListener?.onWeChatShareStart()
-        return api.sendReq(req)
+        val sendReq = api.sendReq(req)
+        if (!sendReq) {
+            mOnWeChatShareListener?.onNotInstall()
+        }
+        return sendReq
     }
 
     /**
@@ -133,7 +137,11 @@ internal class WeChatBaseHelper(val context: Context) {
             // req.userOpenId = getOpenId()
         }
         mOnWeChatShareListener?.onWeChatShareStart()
-        return api.sendReq(req)
+        val sendReq = api.sendReq(req)
+        if (!sendReq) {
+            mOnWeChatShareListener?.onNotInstall()
+        }
+        return sendReq
     }
 
     /**
@@ -169,9 +177,11 @@ internal class WeChatBaseHelper(val context: Context) {
 
                 req.message = msg
                 req.scene = scene.type
-                api.sendReq(req)
-
                 mOnWeChatShareListener?.onWeChatShareStart()
+                val sendReq = api.sendReq(req)
+                if (!sendReq) {
+                    mOnWeChatShareListener?.onNotInstall()
+                }
             } else {
                 mOnWeChatShareListener?.onWeChatShareSentFailed(null)
             }
@@ -223,7 +233,11 @@ internal class WeChatBaseHelper(val context: Context) {
         }
         mOnWeChatShareListener?.onWeChatShareStart()
         // 调用api接口，发送数据到微信
-        return api.sendReq(req)
+        val sendReq = api.sendReq(req)
+        if (!sendReq) {
+            mOnWeChatShareListener?.onNotInstall()
+        }
+        return sendReq
     }
 
 
@@ -269,7 +283,11 @@ internal class WeChatBaseHelper(val context: Context) {
         }
         mOnWeChatShareListener?.onWeChatShareStart()
         // 调用api接口，发送数据到微信
-        return api.sendReq(req)
+        val sendReq = api.sendReq(req)
+        if (!sendReq) {
+            mOnWeChatShareListener?.onNotInstall()
+        }
+        return sendReq
     }
 
 
@@ -313,7 +331,11 @@ internal class WeChatBaseHelper(val context: Context) {
         }
         mOnWeChatShareListener?.onWeChatShareStart()
         // 调用api接口，发送数据到微信
-        return api.sendReq(req)
+        val sendReq = api.sendReq(req)
+        if (!sendReq) {
+            mOnWeChatShareListener?.onNotInstall()
+        }
+        return sendReq
     }
 
     /**
@@ -359,7 +381,11 @@ internal class WeChatBaseHelper(val context: Context) {
         }
         mOnWeChatShareListener?.onWeChatShareStart()
         // 调用api接口，发送数据到微信
-        return api.sendReq(req)
+        val sendReq = api.sendReq(req)
+        if (!sendReq) {
+            mOnWeChatShareListener?.onNotInstall()
+        }
+        return sendReq
     }
 
     /**
@@ -398,6 +424,9 @@ internal class WeChatBaseHelper(val context: Context) {
         }
         mOnWeChatPaymentListener?.onWeChatPaymentStart()
         val sendReq = api.sendReq(req)
+        if (!sendReq) {
+            mOnWeChatPaymentListener?.onNotInstall()
+        }
         Logger.i(TAG, "payment sendReq = $sendReq")
     }
 
